@@ -1,0 +1,2 @@
+# Enable to set custom save game path
+# save_game_path = 

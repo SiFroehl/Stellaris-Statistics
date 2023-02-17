@@ -12,7 +12,7 @@ save_games = None
 save_game = None
 is_initialized = False
 
-def init():
+def init(autoselect_newest=False):
     global path
     global save_games
     global save_game
@@ -27,25 +27,34 @@ def init():
                     path = "".join(line.split("=")[1:]).strip()
 
     print(path)
-    print("Please select a save game to watch!")
-    save_games = os.listdir(path)
-    for idx, save_game in enumerate(save_games):
-        print("[%i] - %s" % (idx, save_game))
+    
+    if autoselect_newest:
+        save_games = os.listdir(path)
+        save_games = sorted(save_games, key = lambda save: -os.path.getmtime(path + save))
+        save_game = save_games[0]
+        print("Selected \"%s\"" % save_game)
+            
+    else:
+        print("Please select a save game to watch!")
+        save_games = os.listdir(path)
+        save_games = sorted(save_games, key = lambda save: -os.path.getmtime(path + save))
+        for idx, save_game in enumerate(save_games):
+            print("[%i] - %s" % (idx, save_game))
 
-    selected_index = -1
-    inp = input("Please enter the corresponding index: ")
-    while selected_index == -1:
-        try:
-            idx = int(inp)
-            if 0 <= idx < len(save_games):
-                selected_index = idx
-            else:
-                print("That index is out of bounds!")
-        except:
-            print("Please enter a valid number!")
+        selected_index = -1
+        while selected_index == -1:
+            inp = input("Please enter the corresponding index: ")
+            try:
+                idx = int(inp)
+                if 0 <= idx < len(save_games):
+                    selected_index = idx
+                else:
+                    print("That index is out of bounds!")
+            except:
+                print("Please enter a valid number!")
 
-    save_game = save_games[selected_index]
-    print("Selected \"%s\"" % save_game)
+        save_game = save_games[selected_index]
+        print("Selected \"%s\"" % save_game)
 
     if not os.path.exists(save_game):
         os.mkdir(save_game)

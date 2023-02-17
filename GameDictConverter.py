@@ -22,6 +22,17 @@ USUALLY_SKIPPED_KEYS = ['species', 'half_species', 'last_created_species', 'nebu
                         'used_species_portrait', 'random_seed', 'random_count',
                         'trade_routes_manager', 'slave_market_manager']
 
+def generate_time_series(meta_dict, key_series, conversion=None):
+    ret = []
+    for meta_key, sub_dict in meta_dict.items():
+        curr = sub_dict
+        for key in key_series:
+            curr = curr[key]
+        if conversion:
+            ret.append(conversion(curr))
+        else:
+            ret.append(curr)
+    return ret
 
 def create_dict_from_file(file_name, skipped_top_level_keys=[]):
     logging.info("create_dict_from_file")

@@ -2,7 +2,7 @@
 Collection of scripts to track progression in stellaris
 
 ## How it works:
-This project uses Python 3 to run. The usage can be split into two parts:
+This project uses Python 3 and some standard packages like numpy, json and zipfile to run so installing these is needed. The usage can be split into two parts:
 - Copying the games autosaves:<br>
 Copying needs to happen while playing as only a limited number of autosaves are kept by the game (5 by default, to have a better sampling rate, decrease the autosave interval). This means the copy part needs to have been started while you are playing!<br>
 Saves are saved converted into JSON files in a folder created in the location the code is executed named the same as the observed game (i.e. EmpireName_123456789). These can be read by other programs if needed and you can use this program soly to copy the saves and process them in some other way.<br>
